@@ -22,10 +22,12 @@ PROD = False
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-gik$snc9(yb!euv6nv%jm3#jz3doxhf+r%r78735nm98-48%#8'
 
+ENC_KEY = b'D_YOKHDgKVWtqCVvmgRGIrSTSlby642KyGdvq9vNYQI='
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','165.22.216.81']
+ALLOWED_HOSTS = ['*','165.22.216.81','127.0.0.1:8000']
 
 
 # Application definition

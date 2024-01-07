@@ -1,54 +1,47 @@
 from django.shortcuts import render,HttpResponse
 from cryptography.fernet import Fernet
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from rest_framework import status
 from ticket_app.models import *
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
+@api_view(('POST',))
+@csrf_exempt
 def entry(request):
     print("View triggered")
     print(request)
     # we will be encrypting the below string.
-    message = request.msg
+    message = request.POST.get("data")
+    print(message)
     
     # generate a key for encryption and decryption
     # You can use fernet to generate 
     # the key or use random key generator
     # here I'm using fernet to generate key
-    
-    key = Fernet.generate_key()
-    
-    # Instance the Fernet class with the key
-    
+    key = settings.ENC_KEY
     fernet = Fernet(key)
-    print("key", key)
+    print("key",key)
     
-    # then use the Fernet class instance 
-    # to encrypt the string string must
-    # be encoded to byte string before encryption
-    encMessage = fernet.encrypt(message.encode())
-    
-    print("original string: ", message)
-    print("encrypted string: ", encMessage)
-
-    print("================================================")
-    # decrypt the encrypted string with the 
-    # Fernet instance of the key,
-    # that was used for encrypting the string
-    # encoded byte string is returned by decrypt method,
-    # so decode it to string with decode methods
-    # encMessage = "gAAAAABlmknwlXHae_T4mmgQwXPWDzj97MlFZlmEmvzfVs-yAaVo-vPtW646ZUsbMhKtEFYR2KubilN39-WL7wwbKQ_5NRi6_Q=='"
     try:
-        decMessage = fernet.decrypt(encMessage).decode()
+        decMessage = fernet.decrypt(message).decode()
         
         print("decrypted string: ", decMessage)
-        ticket_id = decMessage['id']
-        day = decMessage['day']
-        ticket_profile = Entry.objects.create(ticket_id=ticket_id,
-                                              day = day,
-                                              entry_done = True)
-        ticket_profile.save()
-        return Response({"msg": "Successfull"}, status=status.HTTP_200_OK)
+        e = Entry.objects.get(ticket_id=decMessage)
+
+        if e.day != 1:
+            return Response({"msg": "Not todays pass"}, status=status.HTTP_403_FORBIDDEN)
+        
+        elif (e.entry_done == True):
+            return Response({"msg": "Entry already done"}, status=status.HTTP_403_FORBIDDEN)
+
+        else:
+            e.entry_done = True
+            e.save()
+            return Response({"msg": "Successfull"}, status=status.HTTP_200_OK)
+
+        
     except:
-        print("bhag bc")
-        return Response({"msg": "Invalid access"}, status=status.HTTP_404_NOT_FOUND)
+        return Response({"msg": "Invalid access"}, status=status.HTTP_403_FORBIDDEN)
 # Create your views here.
