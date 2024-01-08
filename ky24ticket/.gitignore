@@ -1,2 +1,12 @@
 venv
 .env
+ky24ticket/__pycache__/
+ticket_app/__pycache__
+ky24ticket/__pycache__/__init__.cpython-311.pyc
+ky24ticket/__pycache__/settings.cpython-311.pyc
+ky24ticket/__pycache__/urls.cpython-311.pyc
+ky24ticket/__pycache__/wsgi.cpython-311.pyc
+ticket_app/__pycache__/__init__.cpython-311.pyc
+ticket_app/__pycache__/admin.cpython-311.pyc
+ticket_app/__pycache__/apps.cpython-311.pyc
+ticket_app/__pycache__/models.cpython-311.pyc
