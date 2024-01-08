@@ -27,7 +27,7 @@ ENC_KEY = b'D_YOKHDgKVWtqCVvmgRGIrSTSlby642KyGdvq9vNYQI='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','165.22.216.81','127.0.0.1:8000']
+ALLOWED_HOSTS = ['*','165.22.216.81','127.0.0.1:8000','ticketapi.kashiyatra.org']
 
 
 # Application definition
