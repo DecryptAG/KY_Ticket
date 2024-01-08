@@ -39,7 +39,7 @@ def entry(request):
         else:
             e.entry_done = True
             e.save()
-            return Response({"msg": "Successfull"}, status=status.HTTP_200_OK)
+            return Response({"msg": "Successful"}, status=status.HTTP_200_OK)
 
         
     except:
