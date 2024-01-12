@@ -4,7 +4,7 @@ from ticket_app.models import Entry
 
 class EntryAdmin(admin.ModelAdmin):
     list_display = ('ticket_id',"day")
-    list_filter = ()
+    list_filter = ('entry_done',)
 
 
 admin.site.register(Entry, EntryAdmin)
